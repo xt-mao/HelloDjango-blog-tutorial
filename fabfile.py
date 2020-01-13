@@ -32,9 +32,12 @@ def deploy(c):
  
     # 进入项目根目录，从 Git 拉取最新代码
     with c.cd(project_root_path):
+        c.run('git stash')
         cmd = 'git pull'
         responders = _get_github_auth_responders()
         c.run(cmd, watchers=responders)
+        c.run('git stash pop')
+
  
     # 安装依赖，迁移数据库，收集静态文件
     with c.cd(project_root_path):
